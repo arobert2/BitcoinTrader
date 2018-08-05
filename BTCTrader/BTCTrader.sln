@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTCTrader", "BTCTrader\BTCTrader.csproj", "{37C813C7-C2DB-4D79-9FD6-0A54703FA084}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTCTrader.DataScraper", "BTCTrader.DataScraper\BTCTrader.DataScraper.csproj", "{74AC7CAD-08F3-4F07-930F-3C425754372D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37C813C7-C2DB-4D79-9FD6-0A54703FA084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C813C7-C2DB-4D79-9FD6-0A54703FA084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C813C7-C2DB-4D79-9FD6-0A54703FA084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C813C7-C2DB-4D79-9FD6-0A54703FA084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74AC7CAD-08F3-4F07-930F-3C425754372D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74AC7CAD-08F3-4F07-930F-3C425754372D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74AC7CAD-08F3-4F07-930F-3C425754372D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74AC7CAD-08F3-4F07-930F-3C425754372D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E44D4E9-C04F-4B97-B1F4-F2AEEB8648C5}
+	EndGlobalSection
+EndGlobal
