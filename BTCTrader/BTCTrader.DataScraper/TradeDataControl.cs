@@ -6,23 +6,16 @@ using System.Threading.Tasks;
 
 namespace BTCTrader.DataScraper
 {
-    public enum MarketTimes { One, Three, Five, Fifteen, Thirty }
+    
     public class TradeDataControl
     {
-        private static Dictionary<MarketTimes, List<CoinModel>> Intervals { get; set; }
+        private static 
 
         public TradeDataControl()
         {
             if(Intervals != null)
             {
-                Intervals = new Dictionary<MarketTimes, List<CoinModel>>()
-                {
-                    { MarketTimes.One, new List<CoinModel>() },
-                    { MarketTimes.Three, new List<CoinModel>() },
-                    { MarketTimes.Five, new List<CoinModel>() },
-                    { MarketTimes.Fifteen, new List<CoinModel>() },
-                    { MarketTimes.Thirty, new List<CoinModel>() }
-                };
+                
             }
         }
 

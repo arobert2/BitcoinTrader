@@ -1,6 +1,6 @@
 ﻿namespace BTCTrader.DataScraperService
 {
-    partial class Service1
+    partial class CryptoScannerService
     {
         /// <summary> 
         /// Required designer variable.

@@ -66,7 +66,6 @@
   <ItemGroup>
     <Compile Include="CoinIntervalModel.cs" />
     <Compile Include="CoinModel.cs" />
-    <Compile Include="MarketScraper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,7 +79,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="TradeDataControl.cs" />
+    <None Include="TradeDataControl.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

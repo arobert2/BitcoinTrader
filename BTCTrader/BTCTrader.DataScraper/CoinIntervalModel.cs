@@ -17,10 +17,8 @@ namespace BTCTrader.DataScraper
         public double Low { get; set; }
         public double LastHigh { get; set; }
         public double LastLow { get; set; }
+        public double Average { get; set; }
 
-        public double SevenDayAvg { get; set; }
-        public double ThirtyDayAvg { get; set; }
-
-        public DateTime StartDateTime { get; set; }
+        public DateTime IntervalStamp { get; set; }
     }
 }

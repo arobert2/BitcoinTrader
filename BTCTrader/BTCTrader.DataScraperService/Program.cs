@@ -17,7 +17,7 @@ namespace BTCTrader.DataScraperService
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new Service1()
+                new CryptoScannerService()
             };
             ServiceBase.Run(ServicesToRun);
         }
