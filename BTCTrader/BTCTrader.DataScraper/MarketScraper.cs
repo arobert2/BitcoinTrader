@@ -9,16 +9,14 @@ using System.Timers;
 
 namespace BTCTrader.DataScraper
 {
-    public enum MarketTimes{One, Three, Five, Fifteen, Thirty}
+    
     public class MarketScraper
     {
         public string Market { get; set; }
-        /// <summary>
-        /// Index in minutes 1, 3, 5, 15, 30
-        /// </summary>
-        public Dictionary<MarketTimes, List<CoinModel>> Intervals { get; set; }
 
         private HttpClient HttpClient { get; set; } = new HttpClient();
+
+        private TradeDataControl DataControl = new TradeDataControl();
 
         // Time trigger events
         public event EventHandler OneMinuteComplete;
@@ -38,14 +36,11 @@ namespace BTCTrader.DataScraper
 
         public MarketScraper()
         {
-            Intervals.Add(MarketTimes.One, new List<CoinModel>());
-            Intervals.Add(MarketTimes.Three, new List<CoinModel>());
-            Intervals.Add(MarketTimes.Five, new List<CoinModel>());
-            Intervals.Add(MarketTimes.Fifteen, new List<CoinModel>());
-            Intervals.Add(MarketTimes.Thirty, new List<CoinModel>());
+            
 
             Timer scrapetimer = new Timer(TEN_SECONDS);
             scrapetimer.Elapsed += (e, args) => { ScrapeMarket(); };
+            scrapetimer.Start();
 
             Timer OneMinuteTimer = new Timer(ONE_MINUTE);
             OneMinuteTimer.Elapsed += (o,args) => OneMinuteComplete?.Invoke(this, args);
@@ -79,11 +74,7 @@ namespace BTCTrader.DataScraper
 
             if (cm != null)
             {
-                Intervals[MarketTimes.One].Add(cm);
-                Intervals[MarketTimes.Three].Add(cm);
-                Intervals[MarketTimes.Five].Add(cm);
-                Intervals[MarketTimes.Fifteen].Add(cm);
-                Intervals[MarketTimes.Thirty].Add(cm);
+                DataControl.Add(cm);
             }
         }
     }
