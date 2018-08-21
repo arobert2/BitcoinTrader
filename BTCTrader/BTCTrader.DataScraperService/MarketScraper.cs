@@ -15,6 +15,8 @@ namespace BTCTrader.DataScraperService
     {
         private HttpClient HttpClient { get; set; } = new HttpClient();
 
+        string Market { get; set; }
+
         // Time trigger events
         public event EventHandler OneMinuteComplete;
         public event EventHandler ThreeMinuteComplete;
@@ -22,8 +24,9 @@ namespace BTCTrader.DataScraperService
         public event EventHandler FifteenMinuteComplete;
         public event EventHandler ThirtyMinuteComplete;
 
-        public MarketScraper()
-        {  
+        public MarketScraper(string market)
+        {
+            Market = market;
         }
 
         /// <summary>

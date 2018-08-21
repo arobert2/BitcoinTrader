@@ -1,6 +1,7 @@
 ﻿using BTCTrader.DataScraper;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace BTCTrader.DataScraperService
         // Utilities
         private MarketScraper scraper;
         private CoinIntervalModelBuilder cimBuilder;
+        private DatabaseWriter dbWriter;
 
         // Interval timers
         private Timer scrapetimer = new Timer(TEN_SECONDS);
@@ -51,6 +53,9 @@ namespace BTCTrader.DataScraperService
         public MarketController(string market)
         {
             Market = market;
+            scraper = new MarketScraper(Market);
+            cimBuilder = new CoinIntervalModelBuilder();
+            dbWriter = new DatabaseWriter(ConfigurationManager.AppSettings["ConnectionString"], Market);
 
             scrapetimer.Elapsed += (e, args) => {
                 var sr = scraper.ScrapeMarket().Result;
@@ -58,40 +63,19 @@ namespace BTCTrader.DataScraperService
                     Add(scraper.ScrapeMarket().Result);
             };
 
-            OneMinuteTimer.Elapsed += (e, args) => {
-                var lcm = Intervals[MarketTimes.One];
-                Clear(MarketTimes.One);
-                var coinInt = cimBuilder.Build(lcm, MarketTimes.One);               
-                //SqlWriter.Write(coinInt)
-            };
+            OneMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.One);
+            ThreeMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.Three);
+            FiveMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.Five);
+            FifteenMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.Fifteen);
+            ThirtyMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.Thirty);
+        }
 
-            ThreeMinuteTimer.Elapsed += (e, args) => {
-                var lcm = Intervals[MarketTimes.Three];
-                Clear(MarketTimes.Three);
-                var coinInt = cimBuilder.Build(lcm, MarketTimes.Three);
-                //SqlWriter.Write(cimBuilder.Build(lcm, MarketTimes.Three)
-            };
-
-            FiveMinuteTimer.Elapsed += (e, args) => {
-                var lcm = Intervals[MarketTimes.Five];
-                Clear(MarketTimes.Five);
-                var coinInt = cimBuilder.Build(lcm, MarketTimes.Five);
-                //SqlWriter.Write(cimBuilder.Build(lcm, MarketTimes.Five)               
-            };
-
-            FifteenMinuteTimer.Elapsed += (e, args) => {
-                var lcm = Intervals[MarketTimes.Fifteen];
-                Clear(MarketTimes.Fifteen);
-                var coinInt = cimBuilder.Build(lcm, MarketTimes.Fifteen);
-                //SqlWriter.Write(cimBuilder.Build(lcm, MarketTimes.Fifteen)
-            };
-
-            ThirtyMinuteTimer.Elapsed += (e, args) => {
-                var lcm = Intervals[MarketTimes.Thirty];
-                Clear(MarketTimes.Thirty);
-                var coinInt = cimBuilder.Build(lcm, MarketTimes.Thirty);
-                //SqlWriter.Write(cimBuilder.Build(lcm, MarketTimes.Thirty)                
-            };
+        private void CompleteInterval(MarketTimes mt)
+        {
+            var lcm = Intervals[mt];
+            Clear(mt);
+            var coinInt = cimBuilder.Build(lcm, mt);
+            dbWriter.Create(coinInt, mt);
         }
 
         /// <summary>

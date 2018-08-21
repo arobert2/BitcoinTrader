@@ -12,7 +12,6 @@ namespace BTCTrader.DataScraper
         /// Interval to record in minutes
         /// </summary>
         public int Interval { get; set; }
-
         public double High { get; set; }
         public double Low { get; set; }
         public double LastHigh { get; set; }
