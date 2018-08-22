@@ -19,7 +19,7 @@ namespace BTCTrader.DataScraperService
         {
             ConnectionString = contString;
             _connection = new SqlConnection(ConnectionString);
-            Market = MarketString;
+            Market = MarketString.Replace('-','_');
         }
 
         public bool CheckIfTableExists(MarketTimes mt)
@@ -40,8 +40,15 @@ namespace BTCTrader.DataScraperService
         {
             lock (_connection)
             {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("CREATE TABLE ");
+                sb.Append(Market + mt.ToString());
+                sb.Append(" ( ID int PRIMARY KEY IDENTITY, TimeStamp DATETIME NOT NULL,");
+                sb.Append(" Frame int NOT NULL, Average float NOT NULL, High float NOT NULL,");
+                sb.Append(" LastHigh float NOT NULL, LastLow float NOT NULL, Low float NOT NULL )");
+
                 _connection.Open();
-                using (SqlCommand command = new SqlCommand("CREATE TABLE " + Market + mt.ToString() + " ( ID int PRIMARY KEY IDENTITY, TimeStamp datetime NOT NULL, INTEGER Interval NOT NULL, DECIMAL Average NOT NULL, DECIMAL High NOT NULL, DECIMAL LastHigh NOT NULL, DECIMAL LastLow NOT NULL, DECIMAL Low NOT NULL)", _connection))
+                using (SqlCommand command = new SqlCommand(sb.ToString(), _connection))
                     command.ExecuteNonQuery();
                 _connection.Close();
             }
@@ -60,8 +67,8 @@ namespace BTCTrader.DataScraperService
                     command.Parameters.Add("@TimeStamp", SqlDbType.DateTime).Value = model.IntervalStamp;
                     command.Parameters.Add("@Interval", SqlDbType.Int).Value = model.Interval;
                     command.Parameters.Add("@Average", SqlDbType.Decimal).Value = model.Average;
-                    command.Parameters.Add("@Symbol", SqlDbType.Decimal).Value = model.High;
-                    command.Parameters.Add("@Price", SqlDbType.Decimal).Value = model.LastHigh;
+                    command.Parameters.Add("@High", SqlDbType.Decimal).Value = model.High;
+                    command.Parameters.Add("@LastHigh", SqlDbType.Decimal).Value = model.LastHigh;
                     command.Parameters.Add("@LastLow", SqlDbType.Decimal).Value = model.LastLow;
                     command.Parameters.Add("@Low", SqlDbType.Decimal).Value = model.Low;
 

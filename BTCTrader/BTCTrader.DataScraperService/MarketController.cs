@@ -20,7 +20,8 @@ namespace BTCTrader.DataScraperService
         /// <summary>
         /// Market Data
         /// </summary>
-        private Dictionary<MarketTimes, List<CoinModel>> Intervals => new Dictionary<MarketTimes, List<CoinModel>>()
+        private Dictionary<MarketTimes, List<CoinModel>> Intervals { get; set; } =
+        new Dictionary<MarketTimes, List<CoinModel>>()
         {
             { MarketTimes.One, new List<CoinModel>() },
             { MarketTimes.Three, new List<CoinModel>() },
@@ -57,12 +58,11 @@ namespace BTCTrader.DataScraperService
             cimBuilder = new CoinIntervalModelBuilder();
             dbWriter = new DatabaseWriter(ConfigurationManager.AppSettings["ConnectionString"], Market);
 
-            scrapetimer.Elapsed += (e, args) => {
-                var sr = scraper.ScrapeMarket().Result;
-                if (sr != null)
-                    Add(scraper.ScrapeMarket().Result);
+            scrapetimer.Elapsed += async (e, args) => {
+                var sr = scraper.ScrapeMarket().ContinueWith(res => Add(res.Result));
+                //if (sr != null)
+                    //Add(sr);
             };
-
             OneMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.One);
             ThreeMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.Three);
             FiveMinuteTimer.Elapsed += (e, args) => CompleteInterval(MarketTimes.Five);
@@ -73,16 +73,16 @@ namespace BTCTrader.DataScraperService
         private void CompleteInterval(MarketTimes mt)
         {
             var lcm = Intervals[mt];
-            Clear(mt);
             var coinInt = cimBuilder.Build(lcm, mt);
             dbWriter.Create(coinInt, mt);
+            Clear(mt);
         }
 
         /// <summary>
         /// Add a CoinModel data point to an Interval List
         /// </summary>
         /// <param name="cm">CoinModel</param>
-        public void Add(CoinModel cm)
+        public bool Add(CoinModel cm)
         {
             lock (Intervals)
             {
@@ -92,6 +92,8 @@ namespace BTCTrader.DataScraperService
                 Intervals[MarketTimes.Fifteen].Add(cm);
                 Intervals[MarketTimes.Thirty].Add(cm);
             }
+
+            return true;
         }
 
         public void Clear(MarketTimes mt)

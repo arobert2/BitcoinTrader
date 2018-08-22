@@ -19,8 +19,8 @@ namespace BTCTrader.DataScraperService
         const string SOURCE     =   "CryptoScanner";
         const string LOG_NAME   =   "ScrapperLogger";
 
-        private event EventHandler StartController;
-        private event EventHandler StopController;
+        public event EventHandler StartController;
+        public event EventHandler StopController;
 
         private MarketController marketController;
 
@@ -30,30 +30,36 @@ namespace BTCTrader.DataScraperService
             marketController = new MarketController("btc-bch");
 
             InitializeComponent();
-            Log = new EventLog();
+            //Log = new EventLog();
+            /*
             if (!EventLog.SourceExists(SOURCE))
             {
                 EventLog.CreateEventSource(SOURCE, LOG_NAME);
             }
             Log.Source = SOURCE;
-            Log.Log = LOG_NAME;
+            Log.Log = LOG_NAME;*/
             StartController += (o,args) => marketController.Start();
             StopController += (o, args) => marketController.Stop();
         }
 
         protected override void OnStart(string[] args)
         {
-            Log.WriteEntry("CryptoScanner Started");
+            //Log.WriteEntry("CryptoScanner Started");
             var seconds = -DateTime.Now.Second + 60;
-            Log.WriteEntry("Synchonizing Time");
+            //Log.WriteEntry("Synchonizing Time");
             Thread.Sleep(seconds * 1000);
             StartController.Invoke(this, new EventArgs());
         }
 
         protected override void OnStop()
         {
-            Log.WriteEntry("CryptoScanner Stopped");
+            //Log.WriteEntry("CryptoScanner Stopped");
             StopController.Invoke(this, new EventArgs());
+        }
+
+        public void TestStart(string[] args)
+        {
+            this.OnStart(args);
         }
     }
 }

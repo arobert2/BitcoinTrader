@@ -1,28 +1,16 @@
 ﻿using BTCTrader.DataScraper;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace BTCTrader.DataScraperService
 {
-    
+
     public class MarketScraper
     {
         private HttpClient HttpClient { get; set; } = new HttpClient();
 
         string Market { get; set; }
-
-        // Time trigger events
-        public event EventHandler OneMinuteComplete;
-        public event EventHandler ThreeMinuteComplete;
-        public event EventHandler FiveMinuteComplete;
-        public event EventHandler FifteenMinuteComplete;
-        public event EventHandler ThirtyMinuteComplete;
 
         public MarketScraper(string market)
         {
@@ -35,8 +23,9 @@ namespace BTCTrader.DataScraperService
         /// <returns>Coin model of market</returns>
         public async Task<CoinModel> ScrapeMarket()
         {
-            CoinModel cm = null;
-            HttpResponseMessage resp = await HttpClient.GetAsync("https://bittrex.com/api/v1.1/public/getticker?market=" + Market);
+            dynamic cm = null;
+            var url = "https://bittrex.com/api/v1.1/public/getticker?market=" + Market;
+            HttpResponseMessage resp = await HttpClient.GetAsync(url);
             if (resp.IsSuccessStatusCode)
             {
                 string r = await resp.Content.ReadAsStringAsync();

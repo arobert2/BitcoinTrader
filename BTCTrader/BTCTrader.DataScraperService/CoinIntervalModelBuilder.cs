@@ -21,8 +21,11 @@ namespace BTCTrader.DataScraperService
             cim.Interval = (int)mt;
             cim.High = GetHigh(lcm);
             cim.Low = GetLow(lcm);
-            cim.LastHigh = lcm[lcm.Count - 1].Price.Ask;
-            cim.LastLow = lcm[lcm.Count - 1].Price.Bid;
+            cim.LastHigh = lcm[lcm.Count - 1].Result.Ask;
+            if (lcm[lcm.Count - 1].Result.Bid >= cim.LastLow)
+                cim.LastLow = lcm[lcm.Count - 1].Result.Bid;
+            else
+                cim.LastLow = cim.LastLow;
             cim.Average = GetAverage(lcm);
             return cim;
 
@@ -33,8 +36,8 @@ namespace BTCTrader.DataScraperService
             double High = double.MinValue;
             foreach(var cm in lcm)
             {
-                if (cm.Price.Last > High)
-                    High = cm.Price.Last;
+                if (cm.Result.Last > High)
+                    High = cm.Result.Last;
             }
             return High;
         }
@@ -44,8 +47,8 @@ namespace BTCTrader.DataScraperService
             double Low = double.MaxValue;
             foreach(var cm in lcm)
             {
-                if (cm.Price.Last < Low)
-                    Low = cm.Price.Last;
+                if (cm.Result.Last < Low)
+                    Low = cm.Result.Last;
             }
             return Low;
         }
@@ -54,7 +57,7 @@ namespace BTCTrader.DataScraperService
         {
             double avg = 0;
             foreach (var cm in lcm)
-                avg += cm.Price.Last;
+                avg += cm.Result.Last;
             avg = avg / lcm.Count;
             return avg;
         }

@@ -9,9 +9,9 @@ namespace BTCTrader.DataScraper
     public class CoinModel
     {
         public DateTime Timestamp { get; set; }
-        public bool Sucess { get; set; }
+        public bool Success { get; set; }
         public string Message { get; set; }
-        public CoinPrice Price { get; set; }
+        public CoinPrice Result { get; set; }
 
         public CoinModel()
         {
