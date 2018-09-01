@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTCTrader.DataScraper", "BT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTCTrader.DataScraperService", "BTCTrader.DataScraperService\BTCTrader.DataScraperService.csproj", "{E7006C44-0987-4BB2-9EF8-08476C33DC0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTCTrader.DataScraperCore", "BTCTrader.DataScraperCore\BTCTrader.DataScraperCore.csproj", "{A8F815E4-173F-4F05-BCC3-FCEA50CFA08A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E7006C44-0987-4BB2-9EF8-08476C33DC0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7006C44-0987-4BB2-9EF8-08476C33DC0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7006C44-0987-4BB2-9EF8-08476C33DC0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8F815E4-173F-4F05-BCC3-FCEA50CFA08A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8F815E4-173F-4F05-BCC3-FCEA50CFA08A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8F815E4-173F-4F05-BCC3-FCEA50CFA08A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8F815E4-173F-4F05-BCC3-FCEA50CFA08A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
